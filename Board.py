@@ -1,30 +1,19 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb  6 17:48:28 2020
-
-@author: alexi
-"""
+from Case import Case;
+from Ship import Ship;
 
 class Board(object):
-    def __init__(self):
+    def __init__(self, name):
         
-        self.name = "board"
-        self.value = {
-            "a" : [1,2,3,4,5,6,7,8,9,10],
-            "b" : [1,2,3,4,5,6,7,8,9,10],
-            "c" : [1,2,3,4,5,6,7,8,9,10],
-            "d" : [1,2,3,4,5,6,7,8,9,10],
-            "e" : [1,2,3,4,5,6,7,8,9,10],
-            "f" : [1,2,3,4,5,6,7,8,9,10],
-            "g" : [1,2,3,4,5,6,7,8,9,10],
-            "h" : [1,2,3,4,5,6,7,8,9,10],
-            "i" : [1,2,3,4,5,6,7,8,9,10],
-            "j" : [1,2,3,4,5,6,7,8,9,10],
-        }
+        self.name = name
+        self.board = []
+        self.ships = []
         
-        for i in self.value:
-            for j in range(10):
-                self.value[i][j] = "O"
+        #Initialisation du plateau
+        colInt = ord("A")
+        for i in range(1,11):
+            for j in range(1,11):
+                col = chr(colInt + j - 1)
+                self.board.append(Case([col,i]))
         
     
     def _setName(self, name):
@@ -33,23 +22,49 @@ class Board(object):
     def _getName(self):
         return self.name
     
-    def _setValue(self, value):
-        self.value = value
-        
-    def _getValue(self):
-        return self.value
-        
-    def shoot(self, i,j):
-        self.value[i][j]= "X"
+    def uploadCase(self, case):
+        print(self.board.index(case.col))
     
-    def placeShip(self, coords):
-        for coord in coords:
-            if(coord[0] != "B" and (coord[0] >="A" and coord[0]<="J" )):
-                if(coord[1] != "B"):
-                    self.value[coord[0]][coord[1]]= "B"
-                else:
-                    print("Erreur, déjà un bateau présent ou hors du plateau !")
+    def display(self):
+        for case in self.board:
+            print(case.col, case.lign, " : ", case.etat, " - case n° : ", case)
+            
+    def displayShips(self):
+        for ship in self.ships:
+            ship.display()
+    
+    def shoot(self, i,j):
+        self.board[i][j]= "X"
+    
+    def upload(self):
+        for ship in self.ships:
+            for case in ship.cases:
+                self.board[self.board.index(case)].etat = ship
+    
+    def placeShipsRandom(self):
+        ship1 = Ship([self.foundCase("A1"),self.foundCase("A2"),self.foundCase("A3")])
+        ship2 = Ship([self.foundCase("C5"),self.foundCase("C6")])
+        ship3 = Ship([self.foundCase("J9"),self.foundCase("I9"),self.foundCase("H9")])
+        ship4 = Ship([self.foundCase("C10")])
+        self.ships.append(ship1)
+        self.ships.append(ship2)
+        self.ships.append(ship3)
+        self.ships.append(ship4)
+        
+        self.upload()
+    
+    #Retourne l'adresse de l'objet Case de la case correspondante en valeur
+    def foundCase(self, caseU):
+        
+        #Conversion de list en int
+        strings = [str(integer) for integer in caseU[1:]]
+        a_string = "".join(strings)
+        lignU = int(a_string)
+        
+        for case in self.board:
+            if(case.col == caseU[0]):
+                if(case.lign == lignU):   
+                    return case
                 
-            else:
-                print("Erreur, déjà un bateau présent ou hors du plateau !")
+
         

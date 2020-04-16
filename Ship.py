@@ -1,13 +1,16 @@
-class Ship(object):
-    def __init__(self):
-        
-        self.size = 1
-        
+#0 : case non endommagée
+#1 : case endommagée
 
-    def _setSize(self, size):
-        self.size = size
+class Ship(object):
+    def __init__(self, cases):
+        
+        self.etat = "alive"
+        self.cases = []
+        for case in cases:
+            self.cases.append(case)
+        
     
-    def _getSize(self):
-        return self.size
-    
-    
+    def display(self):
+        print("Bateau : ", self.etat)
+        for case in self.cases:
+            print(case.col, case.lign, " : ", case.etat)
