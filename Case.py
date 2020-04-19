@@ -1,3 +1,8 @@
+#ETAT : 
+# "" : zone vide
+# X : zone tirée
+# Ship : zone avec Bateau
+# T : Zone touchée
 class Case(object):
     def __init__(self, case):
         self.col = str(case[0])

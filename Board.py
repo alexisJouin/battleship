@@ -33,8 +33,11 @@ class Board(object):
         for ship in self.ships:
             ship.display()
     
-    def shoot(self, i,j):
-        self.board[i][j]= "X"
+    def shoot(self, case):
+        if(self.board[self.board.index(self.foundCase(case))].etat == ""):
+            self.board[self.board.index(self.foundCase(case))].etat = "X"
+        elif(isinstance(self.board[self.board.index(self.foundCase(case))].etat, Ship())):
+            self.board[self.board.index(self.foundCase(case))].etat = "T"
     
     def upload(self):
         for ship in self.ships:

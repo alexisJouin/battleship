@@ -17,34 +17,34 @@ boardJ1.display()
 print("BatleShip Python !!")
 print("Appuyer sur q pour quitter")
 end = 1
+choix = ""
 
+for player in players:
+    print("**************************")
+    print("Joueur ", player.name)
+    print("Placement des bateaux (Aléatoire) ...")
+
+    player.placeShipsRandom()
+    
+    for ship in player.ships:
+        ship.display()
+        
 while(end==1):
-    for player in players:
-        print("**************************")
-        print("Joueur ", player.name)
-        print("Placement des bateaux (Aléatoire) ...")
-        
-        player.placeShipsRandom()
-        
-        for ship in player.ships:
-            ship.display()
-        
-       
-        
+   
     #Début de la partie
     for player in players:
         print("**************************")
         print("Joueur ", player.name)
         nbShips = len(player.ships)
+        if(choix != ""):
+            player.shoot(choix)
+            
         player.display()
-       
+        
     
         print(nbShips, " bateau(x) restant(s)")
         choix = input("Attaquer : ") 
-        
-        
-        
-        
+    
         if(choix == "q"):
             print("Partie arrêtée ...")
             end = 0
